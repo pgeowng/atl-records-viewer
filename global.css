@@ -1,0 +1,17 @@
+@import url('https://fonts.googleapis.com/css2?family=Roboto&display=swap');
+
+* {
+  box-sizing: border-box;
+}
+
+body {
+  font-family: 'Roboto', 'Twemoji Mozilla', Arial, Helvetica, sans-serif;
+}
+
+:root {
+  --accent-1: #d87d7d;
+  --accent-2: #dd8d8d;
+  --accent-3: #e5a9a9;
+  --text: #222;
+  --bg: #f0cccc;
+}
