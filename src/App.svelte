@@ -1,5 +1,4 @@
 <script>
-  import Papa from 'papaparse'
   import Button from './components/Button.svelte'
   import Indicator from './components/Indicator.svelte'
   import { formatDateDM } from './utils'
@@ -8,49 +7,9 @@
   import EventStats from './blocks/EventStats.svelte'
   import WeekView from './blocks/WeekView.svelte'
 
+  import { data } from './stores/data.js'
+
   // data handling logic
-  async function parseFile(file) {
-    Papa.parse(file, {
-      complete: (result) => {
-        table = prepareData(result)
-      },
-    })
-  }
-
-  function prepareData(data) {
-    return data.data.slice(1, -1).map((e) => {
-      const result = {}
-      result.name = e[3]
-      result.description = e[5]
-
-      const startDate = new Date(e[0])
-      const endDate = new Date(e[1])
-
-      result.date = new Date(
-        `${startDate.getFullYear()}-${
-          startDate.getMonth() + 1
-        }-${startDate.getDate()}`
-      )
-
-      result.startTime =
-        startDate.getHours() * 3600 +
-        startDate.getMinutes() * 60 +
-        startDate.getSeconds()
-
-      result.endTime =
-        endDate.getHours() * 3600 +
-        endDate.getMinutes() * 60 +
-        endDate.getSeconds()
-
-      const t = e[2].split(':')
-      result.duration =
-        parseInt(t[0]) * 3600 + parseInt(t[1]) * 60 + parseInt(t[2])
-
-      return result
-    })
-  }
-
-  let table = []
 
   // view logic
   let sunday = new Date(2021, 3, 18)
@@ -62,7 +21,7 @@
 
   $: week = (() => {
     let result = [[], [], [], [], [], [], []]
-    table.forEach((e) => {
+    $data.forEach((e) => {
       const start = dayDiff(e.date, sunday)
       if (0 > start || start >= 7) return
 
@@ -72,7 +31,7 @@
   })()
 
   // selected logic
-  let selected = table[0]
+  let selected = $data[0]
   const handleSelect = (e) => {
     selected = e.detail.target
   }
@@ -88,9 +47,9 @@
 
 <main>
   <section>
-    <Dropzone on:data={({ detail }) => parseFile(detail)} />
+    <Dropzone on:data={({ detail }) => data.loadFile(detail)} />
   </section>
-  {#if table.length > 0}
+  {#if $data.length > 0}
     <section>
       <WeekView data={week} on:select={handleSelect} {selected} />
     </section>
@@ -112,7 +71,7 @@
       </Indicator>
     </section>
     <section>
-      <EventStats event={selected} data={table} {week} />
+      <EventStats event={selected} data={$data} {week} />
     </section>
   {/if}
 </main>
