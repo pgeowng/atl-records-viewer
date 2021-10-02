@@ -1,7 +1,8 @@
 <script>
+  export let selected
 </script>
 
-<button type="button" on:click><slot /></button>
+<button type="button" on:click class:selected><slot /></button>
 
 <style>
   /* css reset from https://moderncss.dev/css-button-styling-guide/ */
@@ -16,7 +17,7 @@
     align-items: center;
     justify-content: center;
 
-    background-color: var(--accent-1);
+    background-color: var(--accent-3);
     color: #333;
     border-radius: 4px;
     /* box-shadow: 0 3px 1px rgba(0, 0, 0, 0.18); */
@@ -38,7 +39,11 @@
   }
 
   button:active {
-    background-color: var(--accent-3);
+    background-color: var(--accent-1);
+  }
+
+  .selected {
+    background-color: var(--accent-2);
   }
 
   @media screen and (-ms-high-contrast: active) {

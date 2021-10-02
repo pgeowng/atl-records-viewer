@@ -6,6 +6,7 @@
   import Dropzone from './blocks/Dropzone.svelte'
   import EventStats from './blocks/EventStats.svelte'
   import WeekView from './blocks/WeekView.svelte'
+  import Histogram from './blocks/Histogram.svelte'
 
   import { data } from './stores/data.js'
 
@@ -52,6 +53,9 @@
   {#if $data.length > 0}
     <section>
       <WeekView data={week} on:select={handleSelect} {selected} />
+    </section>
+    <section>
+      <Histogram />
     </section>
     <section class="tools">
       <Button on:click={() => setWeek(-1)}

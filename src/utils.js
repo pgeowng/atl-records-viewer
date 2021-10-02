@@ -34,3 +34,19 @@ export const getDayStr = (date) => {
     .format(date)
     .split(' ')[0]
 }
+
+export const dayEq = (d1, d2) => {
+  return d1.getDate() === d2.getDate()
+}
+
+export const monthEq = (d1, d2) => {
+  return d1.getMonth() === d2.getMonth()
+}
+
+export const yearEq = (d1, d2) => {
+  return d1.getFullYear() === d2.getFullYear()
+}
+
+export const weekEq = (d1, d2) => {
+  return d1.getDate() - d1.getDay() === d2.getDate() - d2.getDay()
+}
